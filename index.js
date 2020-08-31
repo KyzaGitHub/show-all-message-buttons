@@ -11,8 +11,8 @@ const MiniPopover = getModule(
 const ReactButton = require("./components/ReactButton")(MiniPopover);
 
 const MessageActions = getModule(["deleteMessage"], false);
-const MessageCache = getModule(["_channelMessages"], false);
 
+const { getMessages } = getModule(["getMessages"], false);
 const { getChannelId } = getModule(["getLastSelectedChannelId"], false);
 
 let emojiPickerMessage = "";
@@ -126,8 +126,7 @@ module.exports = class ShowAllMessageButtons extends Plugin {
 	}
 
 	rerenderMessages() {
-		const currentChannelMessages =
-			MessageCache._channelMessages[getChannelId()]._array;
+		const currentChannelMessages = getMessages(getChannelId())._array;
 		for (let i = 0, il = currentChannelMessages.length; i < il; i++) {
 			const message = currentChannelMessages[i];
 			this.updateMessage(
