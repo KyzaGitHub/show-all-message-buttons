@@ -10,8 +10,6 @@ const MiniPopover = getModule(
 
 module.exports = class ShowAllMessageButtons extends Plugin {
 	async startPlugin() {
-		this.loadStylesheet("style.scss");
-
 		inject(
 			"show-all-message-buttons-mini-popover",
 			MiniPopover,
