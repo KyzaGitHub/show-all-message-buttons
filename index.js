@@ -11,6 +11,9 @@ const MiniPopover = getModule(
 const ReactButton = require("./components/ReactButton")(MiniPopover);
 
 const MessageActions = getModule(["deleteMessage"], false);
+const MessageCache = getModule(["_channelMessages"], false);
+
+const { getChannelId } = getModule(["getLastSelectedChannelId"], false);
 
 let emojiPickerMessage = "";
 let addedListener = false;
@@ -112,11 +115,30 @@ module.exports = class ShowAllMessageButtons extends Plugin {
 			},
 			true
 		);
+
+		this.rerenderMessages();
 	}
 
 	pluginWillUnload() {
 		uninject("show-all-message-buttons-mini-popover");
 		uninject("show-all-message-buttons-delete-message");
+		this.rerenderMessages();
+	}
+
+	rerenderMessages() {
+		const currentChannelMessages =
+			MessageCache._channelMessages[getChannelId()]._array;
+		for (let i = 0, il = currentChannelMessages.length; i < il; i++) {
+			const message = currentChannelMessages[i];
+			this.updateMessage(
+				{
+					id: message.id,
+					channel_id: message.channel_id,
+					author: message.author,
+				},
+				false
+			);
+		}
 	}
 
 	updateMessage(message, showEmojiPicker) {
