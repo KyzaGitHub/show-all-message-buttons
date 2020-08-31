@@ -34,11 +34,4 @@ module.exports = class ShowAllMessageButtons extends Plugin {
 	pluginWillUnload() {
 		uninject("show-all-message-buttons-mini-popover");
 	}
-
-	updateMessage(message) {
-		dispatcher.dirtyDispatch({
-			type: "MESSAGE_UPDATE",
-			message,
-		});
-	}
 };
