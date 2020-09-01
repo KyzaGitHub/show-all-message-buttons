@@ -14,9 +14,8 @@ module.exports = ({ Button }) =>
 				<Tooltip color="black" postion="top" text="Add Reaction">
 					{({ onMouseLeave, onMouseEnter }) => (
 						<Button
-							className="text-react-button"
-							onClick={() => {
-								console.log(this.props.controls);
+						className="show-all-message-buttons-react-button"
+						onClick={() => {
 								this.props.showEmojiPicker(true);
 							}}
 							onMouseEnter={onMouseEnter}

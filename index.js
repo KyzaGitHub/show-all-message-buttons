@@ -9,6 +9,7 @@ const MiniPopover = getModule(
 	false
 );
 const ReactButton = require("./components/ReactButton")(MiniPopover);
+const PublishButton = require("./components/PublishButton")(MiniPopover);
 
 const MessageActions = getModule(["deleteMessage"], false);
 
@@ -83,15 +84,28 @@ module.exports = class ShowAllMessageButtons extends Plugin {
 						document.body.addEventListener("click", pickerClick);
 					}
 				}
-				res.props.children.splice(
-					res.props.children.length - 2,
-					0,
-					React.createElement(ReactButton, {
-						showEmojiPicker: (show) => {
-							this.updateMessage(props.message, show);
-						},
-					})
-				);
+				if (props.canReact) {
+					res.props.children.splice(
+						res.props.children.length - 2,
+						0,
+						React.createElement(ReactButton, {
+							showEmojiPicker: (show) => {
+								this.updateMessage(props.message, show);
+							},
+						})
+					);
+				}
+				// Not quite as annoying as the react button.
+				if (props.canPublish) {
+					res.props.children.splice(
+						res.props.children.length - 2,
+						0,
+						React.createElement(PublishButton, {
+							id: props.message.id,
+							channel_id: props.message.channel_id,
+						})
+					);
+				}
 
 				return res;
 			}
